@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>점수 측정 및 표시 데모</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">주행 거리 · 생존 시간 기반</p>
+          <h1>점수 측정 및 표시</h1>
+          <p class="lead">
+            주행 거리(km)와 생존 시간(s)을 실시간으로 추적하고 가중치를 적용해 총
+            점수를 산출합니다. 아래 UI는 게임 HUD나 관제 보드에 그대로 활용할 수
+            있도록 설계되었습니다.
+          </p>
+        </div>
+        <div class="hero-meta">
+          <span>거리 가중치: <strong data-role="distanceWeight">5</strong> (100m)</span>
+          <span>시간 가중치: <strong data-role="timeWeight">2</strong> (1s)</span>
+        </div>
+      </header>
+
+      <section class="scoreboard">
+        <article class="card total">
+          <div class="card-header">
+            <h2>총 점수</h2>
+            <span class="tag running" data-role="runState">대기 중</span>
+          </div>
+          <p class="score" data-role="totalScore">0</p>
+          <p class="sub" data-role="scoreBreakdown">거리 0 + 시간 0</p>
+        </article>
+        <article class="card">
+          <h3>주행 거리</h3>
+          <p class="metric">
+            <span data-role="distanceValue">0.00</span>
+            <small>km</small>
+          </p>
+          <p class="sub">≈ <span data-role="distanceMeters">0</span> m</p>
+        </article>
+        <article class="card">
+          <h3>생존 시간</h3>
+          <p class="metric">
+            <span data-role="timeValue">0.0</span>
+            <small>s</small>
+          </p>
+          <p class="sub">⏱ 지난 라운드 대비 <span data-role="deltaTime">+0.0</span>s</p>
+        </article>
+        <article class="card">
+          <h3>평균 속도</h3>
+          <p class="metric">
+            <span data-role="speedValue">80</span>
+            <small>km/h</small>
+          </p>
+          <p class="sub">= <span data-role="speedMeters">22.22</span> m/s</p>
+        </article>
+      </section>
+
+      <section class="controls card">
+        <h3>시뮬레이션 제어</h3>
+        <div class="control-row">
+          <button data-action="toggle">주행 시작</button>
+          <button data-action="snapshot" class="ghost">스냅샷</button>
+          <button data-action="reset" class="danger ghost">초기화</button>
+        </div>
+        <label class="slider">
+          <span>목표 속도</span>
+          <input
+            type="range"
+            min="20"
+            max="220"
+            value="80"
+            step="5"
+            data-role="speedInput"
+          />
+          <span class="value" data-role="speedLabel">80 km/h</span>
+        </label>
+        <p class="hint">
+          실제 게임 또는 시뮬레이션에서는 <code>ScoreManager</code>의
+          <code>applyExternalState</code> 메서드로 속도·거리·시간을 바로 주입할 수
+          있습니다.
+        </p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h3>계산 규칙</h3>
+          <ul class="rules">
+            <li>100 m마다 거리 가중치(기본 5점)를 누적</li>
+            <li>1초마다 시간 가중치(기본 2점)를 누적</li>
+            <li>총 점수 = 거리 점수 + 시간 점수</li>
+            <li>필요 시 가중치는 스크립트에서 손쉽게 조정 가능</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>최근 스냅샷</h3>
+          <ul class="log" data-role="log"></ul>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
